@@ -1183,6 +1183,13 @@ least `Accept-Ranges`, `Content-Length`, `Content-Range`, and `ETag`. Keep the b
 authorization still comes from the signed URL. Express `CORS_ORIGINS` applies only to API
 responses and cannot authorize the browser's subsequent request to the object-storage origin.
 
+A browser can replace Origin with `null` on the cross-origin API-to-storage
+redirect. For public playback, configure a separate storage CORS `GET`/`HEAD`
+rule with AllowedOrigins `*`; keep upload `PUT` origins restricted. This remains
+a private bucket accessed through signed URLs, without credentialed browser reads.
+A direct HTTP GET with the frontend Origin does not prove browser redirect CORS:
+the redirect chain must also be exercised in a browser.
+
 ## Factories
 
 Example of a factory in this repository:

@@ -48,7 +48,6 @@
     }
   },
   "overrides": {
-    "decode-uri-component": "0.5.0",
     "deepmerge-ts": "8.0.2",
     "mysql2": "3.24.5"
   },

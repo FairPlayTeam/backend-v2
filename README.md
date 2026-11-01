@@ -385,6 +385,12 @@ by the provider); and expose `Accept-Ranges`, `Content-Length`, `Content-Range`,
 bucket remains private and the signed URL supplies authorization. `CORS_ORIGINS` configures Express
 only; it does not cover redirected reads or presigned multipart uploads to Garage/S3.
 
+For API-to-storage cross-origin redirects, browsers can send `Origin: null` to
+storage. An allow-list containing only the frontend URL therefore does not suffice.
+Use a separate bucket CORS rule allowing `GET`/`HEAD` from `*` for these public
+media reads, while keeping `PUT` restricted to the frontend origins. This grants
+no public object access: the bucket stays private and signed URLs remain required.
+
 ## Maintenance and runtime lifecycle
 
 The existing periodic auth cleanup is now the single general maintenance job. It sequentially and
