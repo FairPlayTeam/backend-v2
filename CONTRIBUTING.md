@@ -15,7 +15,7 @@ git checkout -b feat/my-feature
 
 ### Setup the environment
 
-Node.js, Bun (1.3.10), Docker, `ffmpeg`, and `ffprobe` are required for the host development flow.
+Node.js 24, Bun (1.3.10), Docker, `ffmpeg`, and `ffprobe` are required for the host development flow.
 The Docker runtime image already contains the FFmpeg tools.
 
 The recommended development setup runs the API with Bun on the host and runs the local dependency
@@ -305,6 +305,24 @@ bun run check:tests
 bun run check:security
 bun run check:build
 ```
+
+### Dependency updates
+
+Keep `prisma`, `@prisma/client`, and `@prisma/adapter-pg` on the same stable version. Prisma 8 is
+currently a release candidate. Keep TypeScript on 6.0 while `typescript-eslint` requires `<6.1.0`.
+Vitest 5 runs with Node.js 24 in CI; Bun remains the package manager and unit-test runner.
+
+The exact overrides in `package.json` cover dependencies pinned by upstream packages:
+
+- `effect` 3.22.5 replaces Prisma config's vulnerable 3.20.0 pin (GHSA-7589-6fvf-x4pw).
+- `glob` 14.0.6 replaces archiver-utils' 10.x range, fixes GHSA-3g3m-2fjr-6pw4, and uses a
+  patched `minimatch` (GHSA-g3hv-75wg-m249).
+
+Reassess these overrides when upgrading their parents, and remove them once upstream resolves to
+the required versions. The previous `deepmerge-ts` and `mysql2` overrides are unnecessary with
+Prisma 7.10.1.
+Regenerate and commit `bun.lock` together with `package.json`, then run `bun install --frozen-lockfile`,
+`bun run prisma:generate`, and `bun run check`.
 
 ### Commit template
 

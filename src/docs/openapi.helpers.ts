@@ -4,10 +4,10 @@ import type {
   ZodMediaTypeObject,
 } from '@asteasolutions/zod-to-openapi';
 
-type JsonResponseSchema = ZodMediaTypeObject['schema'];
+type JsonResponseSchema = NonNullable<ZodMediaTypeObject['schema']>;
 type RequestConfig = NonNullable<RouteConfig['request']>;
 type RequestBodyConfig = NonNullable<RequestConfig['body']>;
-type RequestBodySchema = ZodMediaTypeObject['schema'];
+type RequestBodySchema = NonNullable<ZodMediaTypeObject['schema']>;
 
 export const jsonResponse = (description: string, schema: JsonResponseSchema): ResponseConfig => ({
   description,
