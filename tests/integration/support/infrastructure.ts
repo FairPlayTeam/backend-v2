@@ -99,6 +99,10 @@ export const startGarageContainer = async (
     .withStartupTimeout(60_000);
 
   if (dataDirectory) {
+    if (process.getuid && process.getgid) {
+      container = container.withUser(`${process.getuid()}:${process.getgid()}`);
+    }
+
     container = container.withBindMounts([
       {
         source: dataDirectory,
