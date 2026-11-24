@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: postgresql://user:password@localhost:5432/fairplay?schema=public
+      BASE_URL: http://localhost:3000
 
     steps:
       - name: Checkout repository
